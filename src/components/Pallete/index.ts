@@ -1,0 +1,1 @@
+export { Pallete } from "./Pallete";

@@ -1,16 +1,14 @@
-import { useCallback, useEffect, useState } from "react";
-import { Map } from "../../components";
+import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
+import { CircularProgress } from "@mui/material";
 import { carsApi } from "../../api/cars";
-import { Controls } from "../../components/Controls/Controls";
+import { Controls, Map, Legend } from "../../components";
 import { styles } from "./styles";
 import { Filter } from "../../types/filter";
-import { useAtom, useAtomValue } from "jotai";
+import { useAtom } from "jotai";
 import { loadingAtom } from "../../atoms/loadingAtom";
-import { CircularProgress } from "@mui/material";
-import { Legend } from "../../components/Legend/Legend";
 import { StateData } from "../../types/stateData";
 import { errorAtom } from "../../atoms/errorAtom";
-import { toast } from "react-toastify";
 
 export const Home = () => {
     const [filter, setFilter] = useState<Filter>({});
@@ -34,6 +32,7 @@ export const Home = () => {
 
     useEffect(() => {
         fetchCars();
+        // deliberately did not put smth else to dep arr
     }, [filter]);
 
     return (

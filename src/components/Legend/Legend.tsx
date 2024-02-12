@@ -1,5 +1,5 @@
 import { levelColors } from "../../constants/levelColors";
-import { Pallete } from "../Pallete/Pallete";
+import { Pallete } from "../";
 import { styles } from "./styles";
 
 export function Legend() {
