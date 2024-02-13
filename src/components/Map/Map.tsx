@@ -1,10 +1,9 @@
-import { Popover } from "@mui/material";
 import React, { useEffect, useMemo, useState } from "react";
 import { StateColors } from "../../types/stateColor";
 import { intialColor } from "../../constants/levelColors";
-import { styles } from "./styles";
 import { StateData } from "../../types/stateData";
 import { getStateColors } from "../../utils/getStateColors";
+import { Popover } from "./../../components";
 
 interface Props {
     stateData: StateData[];
@@ -14,7 +13,6 @@ export function Map({ stateData }: Props) {
     const [stateColors, setStateColors] = useState<StateColors>({});
     const [anchorEl, setAnchorEl] = React.useState<EventTarget | null>(null);
     const [activeId, setActiveId] = useState("");
-    const [prevColor, setPrevColor] = useState(intialColor);
 
     useEffect(() => {
         setStateColors(getStateColors(stateData));
@@ -30,43 +28,30 @@ export function Map({ stateData }: Props) {
 
     function onHover(e: React.MouseEvent) {
         const id = (e.target as SVGAElement).getAttribute("id");
-        if (!id) {
-            setAnchorEl(null);
-            return;
-        }
         setAnchorEl(e.target);
+
         if (id !== activeId) {
             setStateColors((p) => ({
                 ...p,
-                [activeId]: prevColor,
-                [id]: "red",
+                [activeId]: intialColor,
+                [id || ""]: "red",
             }));
-            setActiveId(id);
-            setPrevColor((e.target as SVGAElement).getAttribute("fill") || "");
+
+            setActiveId(id || "");
         }
     }
 
     const open = Boolean(anchorEl);
+
     return (
         <>
             <Popover
-                id="mouse-over-popover"
-                sx={{
-                    pointerEvents: "none",
-                }}
+                anchorEl={anchorEl}
+                activeId={activeId}
                 open={open}
-                anchorEl={anchorEl as Element}
-                anchorOrigin={{
-                    vertical: "bottom",
-                    horizontal: "left",
-                }}
-                onClose={handlePopoverClose}
-            >
-                <div css={styles.popoverBody}>
-                    <div>{activeId}</div>
-                    <div>{activeStateCount ? `count - ${activeStateCount}` : "-"}</div>
-                </div>
-            </Popover>
+                handlePopoverClose={handlePopoverClose}
+                activeStateCount={activeStateCount}
+            />
             <svg onMouseOver={onHover} height="589px" width="1000px">
                 <path
                     stroke="#999"
