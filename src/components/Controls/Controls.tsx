@@ -7,10 +7,10 @@ import {
     MenuItem,
     Select,
 } from "@mui/material";
+import { useAtom } from "jotai";
 import { styles } from "./styles";
 import { Color, Country, Filter, Make } from "../../types/filter";
 import { loadingAtom } from "../../atoms/loadingAtom";
-import { useAtom } from "jotai";
 import { errorAtom } from "../../atoms/errorAtom";
 
 interface Props {
@@ -33,6 +33,7 @@ export function Controls({ filter, setFilter }: Props) {
                 <Select
                     labelId="make"
                     disabled={loading}
+                    defaultValue="empty"
                     label="Make"
                     value={filter.make || "empty"}
                     onChange={(event) => {
@@ -46,7 +47,7 @@ export function Controls({ filter, setFilter }: Props) {
                         }
                     }}
                 >
-                    {filter.make && <MenuItem value="empty">Empty</MenuItem>}
+                    <MenuItem value="empty">Choose one</MenuItem>
                     <MenuItem value="BMW">BMW</MenuItem>
                     <MenuItem value="Audi">Audi</MenuItem>
                     <MenuItem value="Chevrolet">Chvrolet</MenuItem>
@@ -60,6 +61,7 @@ export function Controls({ filter, setFilter }: Props) {
                     labelId="color"
                     disabled={loading}
                     label="Color"
+                    defaultValue="empty"
                     value={filter.color || "empty"}
                     onChange={(event) => {
                         const value = event.target.value;
@@ -72,7 +74,7 @@ export function Controls({ filter, setFilter }: Props) {
                         }
                     }}
                 >
-                    {filter.color && <MenuItem value="empty">Empty</MenuItem>}
+                    <MenuItem value="empty">Choose one</MenuItem>
                     <MenuItem value="white">White</MenuItem>
                     <MenuItem value="black">Black</MenuItem>
                     <MenuItem value="blue">Blue</MenuItem>
@@ -85,6 +87,7 @@ export function Controls({ filter, setFilter }: Props) {
                     disabled={loading}
                     value={filter.country || "empty"}
                     labelId="country"
+                    defaultValue="empty"
                     label="country"
                     onChange={(event) => {
                         const value = event.target.value;
@@ -97,7 +100,7 @@ export function Controls({ filter, setFilter }: Props) {
                         }
                     }}
                 >
-                    {filter.country && <MenuItem value="empty">Empty</MenuItem>}
+                    <MenuItem value="empty">Choose one</MenuItem>
                     <MenuItem value="Germany">Germany</MenuItem>
                     <MenuItem value="USA">USA</MenuItem>
                     <MenuItem value="Japan">Japan</MenuItem>

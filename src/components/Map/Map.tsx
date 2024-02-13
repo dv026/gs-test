@@ -13,6 +13,7 @@ export function Map({ stateData }: Props) {
     const [stateColors, setStateColors] = useState<StateColors>({});
     const [anchorEl, setAnchorEl] = React.useState<EventTarget | null>(null);
     const [activeId, setActiveId] = useState("");
+    const [prevColor, setPrevColor] = useState(intialColor);
 
     useEffect(() => {
         setStateColors(getStateColors(stateData));
@@ -30,14 +31,19 @@ export function Map({ stateData }: Props) {
         const id = (e.target as SVGAElement).getAttribute("id");
         setAnchorEl(e.target);
 
+        if (!id) {
+            setAnchorEl(null);
+        }
+
         if (id !== activeId) {
             setStateColors((p) => ({
                 ...p,
-                [activeId]: intialColor,
+                [activeId]: prevColor,
                 [id || ""]: "red",
             }));
 
             setActiveId(id || "");
+            setPrevColor((e.target as SVGAElement).getAttribute("fill") || "");
         }
     }
 
